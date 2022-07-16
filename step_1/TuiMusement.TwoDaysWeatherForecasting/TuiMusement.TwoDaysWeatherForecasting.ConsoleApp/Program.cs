@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using TuiMusement.TwoDaysWeatherForecasting.ConsoleApp.Infrastructure.DI;
 using TuiMusement.TwoDaysWeatherForecasting.ConsoleApp.Infrastructure.Logging;
 
@@ -7,9 +8,9 @@ using var host = BuildHost();
 IHost BuildHost() => Host
     .CreateDefaultBuilder(args)
     .ConfigureLogging()
-    .ConfigureServices((_, services) =>
+    .ConfigureServices((hostBuilderContext, services) =>
     {
-        services.AddInfrastructure();
+        services.AddInfrastructure((hostBuilderContext.Configuration as IConfigurationRoot)!);
     })
     .Build();
 
