@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TuiMusement.TwoDaysWeatherForecasting.ConsoleApp.Infrastructure.CityRepository;
 using TuiMusement.TwoDaysWeatherForecasting.ConsoleApp.Infrastructure.ProgressNotifier.DI;
 using TuiMusement.TwoDaysWeatherForecasting.ConsoleApp.Infrastructure.TypeMapping.DI;
+using TuiMusement.TwoDaysWeatherForecasting.ConsoleApp.Infrastructure.WeatherForecasting.DI;
 
 namespace TuiMusement.TwoDaysWeatherForecasting.ConsoleApp.Infrastructure.DI;
 
@@ -15,6 +16,8 @@ public static class InfrastructureServiceCollectionExtensions
             
             .AddTypeMapping()
             
-            .AddCityRepository(configurationRoot);
+            .AddCityRepository(configurationRoot)
+            
+            .AddWeatherForecastingService(configurationRoot);
     }
 }
