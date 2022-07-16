@@ -33,6 +33,7 @@
         <li><a href="#provide-configuration-setting-through-command-line-arguments">Provide configuration setting through command line arguments</a></li>
       </ul>
     </li>
+    <li><a href="#code-style">Code style</a></li>
     <li><a href="#to-do">To do</a></li>
     <li><a href="#known-issues">Known issues</a></li>
     <li><a href="#contributing">Contributing</a></li>
@@ -67,6 +68,7 @@ It contains the unit tests.
 * [xUnit](https://xunit.net/)
 * [FakeItEasy](https://fakeiteasy.github.io/)
 * [AutoFixture](https://github.com/AutoFixture/AutoFixture)
+* [Editorconfig](https://editorconfig.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -165,6 +167,9 @@ TuiApi__BaseUrl='https://api.musement.com' WeatherApi__BaseUrl='https://api.weat
 docker run --rm -e TuiApi__BaseUrl='https://api.musement.com' -e WeatherApi__BaseUrl='https://api.weatherapi.com' -e WeatherApi__ApiKey='YOUR_API_KEY' nico/two-days-weather-forecasting
 ```
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
 ### Provide configuration setting through command line arguments
 
 Pass arguments with name matching the one for the configuration settings you want to provide and the value you want the application to use.
@@ -181,8 +186,16 @@ Pass arguments with name matching the one for the configuration settings you wan
 ```shell
 docker run --rm nico/two-days-weather-forecasting TuiApi:BaseUrl='https://api.musement.com' WeatherApi:BaseUrl='https://api.weatherapi.com' WeatherApi:ApiKey='66fb869bd7a44ea092f213503221207
 ```
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+
+
+<!-- CODE STYLE -->
+## Code style
+
+Coding style must adhere to the rules specified in the [.editorconfig](./.editorconfig) file.\
+Make sure that your IDE support [EditorConfig](https://editorconfig.org/) specs and that the supoprt is enabled.
 
 
 <!-- TO DO -->
