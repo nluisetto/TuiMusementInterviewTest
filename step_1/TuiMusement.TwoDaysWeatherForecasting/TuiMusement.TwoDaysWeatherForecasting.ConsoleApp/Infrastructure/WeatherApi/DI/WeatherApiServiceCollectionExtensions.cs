@@ -27,6 +27,9 @@ public static class WeatherApiServiceCollectionExtensions
             });
 
         serviceCollection
+            .AddSingleton<IRequestUriBuilder, RequestUriBuilder>();
+
+        serviceCollection
             .AddScoped<IWeatherApiClient, WeatherApiClient>();
         
         return serviceCollection;
