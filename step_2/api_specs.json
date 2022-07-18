@@ -1,0 +1,265 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "TUI Musement Weather forecasts store",
+        "version": "1.0.0",
+        "description": "The service will be used to store and read weather forecasts for the cities."
+    },
+    "consumes": [
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/cities/{id}/weather-forecasts/": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "from",
+                        "description": "Specify the minimum date of the weather forecasts to be returned.\nThe format is YYYY-MM-DD.",
+                        "in": "query",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    {
+                        "name": "to",
+                        "description": "Specify the maximum date of the weather forecasts to be returned.\nThe format is YYYY-MM-DD.",
+                        "in": "query",
+                        "type": "string",
+                        "format": "date"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Returned when no city is identified by the provided id path parameter."
+                    },
+                    "200": {
+                        "description": "Returned when no error occurred.\nContains the collection of weather forecasts matching the given parameters (could be none).",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/WeatherForecast"
+                            }
+                        },
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "date": "2022-07-18",
+                                    "condition": "sunny"
+                                },
+                                {
+                                    "date": "2022-07-19",
+                                    "condition": "the sunniest day ever happened"
+                                }
+                            ]
+                        }
+                    },
+                    "403": {
+                        "description": "Returned when the bearer token doesn't have the weather-forecast:read scope."
+                    },
+                    "401": {
+                        "$ref": "#/responses/401-unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "WeatherForecast-OAuth2": [
+                            "weather-forecasts:read"
+                        ]
+                    }
+                ],
+                "operationId": "GET Weather Forecast Collection of given city",
+                "summary": "Returns the collection of weather forecasts for the given city (id)."
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "description": "A collection of weather forecasts.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/WeatherForecast"
+                            }
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returned when all the weather forecasts have been created or updated successfully."
+                    },
+                    "401": {
+                        "$ref": "#/responses/401-unauthorized"
+                    },
+                    "403": {
+                        "description": "Returned when the bearer token doesn't have the weather-forecast:write scope."
+                    },
+                    "404": {
+                        "description": "Returned when no city is identified by the provided id path parameter."
+                    }
+                },
+                "security": [
+                    {
+                        "WeatherForecast-OAuth2": [
+                            "weather-forecasts:write"
+                        ]
+                    }
+                ],
+                "operationId": "PATCH Weather Forecast collection of given city",
+                "summary": "Bulk create and/or update weather forecasts for the given city (id)."
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The id of the city.",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        },
+        "/cities/{id}/weather-forecasts/{date}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Returned when no error occurred.\nContains the weather forecast for the given city id and date path params.",
+                        "schema": {
+                            "$ref": "#/definitions/WeatherForecast"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "date": "2022-07-18",
+                                "condition": "sunny"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Returned when no city is identified by the given id path param or no weather forecast has been stored for the city and the given date."
+                    },
+                    "403": {
+                        "description": "Returned when the bearer token doesn't have the weather-forecast:read scope."
+                    },
+                    "401": {
+                        "$ref": "#/responses/401-unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "WeatherForecast-OAuth2": [
+                            "weather-forecasts:read"
+                        ]
+                    }
+                ],
+                "operationId": "GET Weather Forecast of given city and date",
+                "summary": "Returns the weather forecast for the given city (id) and date."
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "body",
+                        "description": "The condition of the weather for the given city and date.",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "body",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "$ref": "#/responses/401-unauthorized"
+                    },
+                    "200": {
+                        "description": "Returned when the weather forecast have been stored without any error occurring."
+                    },
+                    "403": {
+                        "description": "Returned when the bearer token doesn't have the weather-forecast:write scope."
+                    },
+                    "404": {
+                        "description": "Returned when no city is identified by the given id path param value."
+                    }
+                },
+                "security": [
+                    {
+                        "WeatherForecast-OAuth2": [
+                            "weather-forecasts:write"
+                        ]
+                    }
+                ],
+                "operationId": "PUT Weather Forecast of given city and date",
+                "summary": "Create or update the weather forecast for the given city and date.",
+                "description": ""
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "The id of the city.",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "name": "date",
+                    "description": "The date of the forecast in YYYY-MM-DD format.",
+                    "in": "path",
+                    "required": true,
+                    "type": "string",
+                    "format": "date"
+                }
+            ]
+        }
+    },
+    "definitions": {
+        "WeatherForecast": {
+            "title": "WeatherForecast",
+            "description": "Represent a weather forecast for a specific date.",
+            "type": "object",
+            "properties": {
+                "date": {
+                    "format": "date",
+                    "type": "string"
+                },
+                "condition": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "date": "2022-07-18",
+                "condition": "sunny"
+            }
+        }
+    },
+    "responses": {
+        "401-unauthorized": {
+            "description": "Returned when request is not authenticated either because header is missing or the token is invalid/expired."
+        }
+    },
+    "securityDefinitions": {
+        "WeatherForecast-OAuth2": {
+            "flow": "password",
+            "tokenUrl": "https://api.musement.com/api/v3/login",
+            "scopes": {
+                "weather-forecasts:read": "Allows to read weather forecasts",
+                "weather-forecasts:write": "Allows to add and update weather forecasts"
+            },
+            "type": "oauth2"
+        }
+    },
+    "security": [
+        {
+            "WeatherForecast-OAuth2": [
+            ]
+        }
+    ]
+}
